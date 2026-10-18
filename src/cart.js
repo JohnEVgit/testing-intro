@@ -1,9 +1,41 @@
-function notImplemented() {
-  throw new Error('Корзина ещё не реализована. Сначала прочитайте тесты.');
+
+function addToCart(cart, product, quantity) {
+  if (quantity <= 0) {
+    throw new RangeError("Колькасць тавару павінна быць больш за 0");
+  }
+  if (quantity > product.stock) {
+    throw new RangeError("Колькасць тавару не павинна перавышаць колькасць на складзе");
+  }
+
+  const productInCart = cart.find(elem => elem.id === product.id);
+
+  if (productInCart) {
+    productInCart.quantity += quantity;
+  } else {
+    cart.push({...product, quantity});
+  }
+
+  return cart;
 }
 
-function addToCart() { return notImplemented(); }
-function changeQuantity() { return notImplemented(); }
+function changeQuantity(cart, id, quantity) {
+  if (quantity <= 0) {
+    throw new RangeError("Колькасць тавару павінна быць больш за 0");
+  }
+
+  const productInCart = cart.find(elem => elem.id === id);
+
+  if (productInCart) {
+    if (quantity > productInCart.stock) {
+      throw new RangeError("Колькасць тавару не павинна перавышаць колькасць на складзе");
+    }
+
+    productInCart.quantity = quantity;
+  }
+
+  return cart;
+}
+
 function removeFromCart() { return notImplemented(); }
 function calculateCartSubtotal() { return notImplemented(); }
 function calculateOrderTotal() { return notImplemented(); }
